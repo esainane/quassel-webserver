@@ -51,6 +51,8 @@
         requestMergeBuffersPermanently: requestMergeBuffersPermanently,
         requestUpdate: requestUpdate,
         connect: connect,
+        createIdentity: createIdentity,
+        createNetwork: createNetwork,
         disconnect: disconnect,
         login: login,
         requestUnhideBuffer: requestUnhideBuffer,
@@ -208,7 +210,15 @@
       function connect() {
         self.quassel.connect();
       }
-      
+
+      function createIdentity(nick) {
+        self.quassel.createIdentity(nick);
+      }
+
+      function createNetwork(name, domain, identity) {
+        self.quassel.createNetwork(name, domain, identity);
+      }
+
       function disconnect() {
         self.quassel.disconnect();
       }
