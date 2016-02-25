@@ -25,6 +25,8 @@ html(ng-app="quassel", ng-controller="ConfigController")
         quasselconf.initialBacklogLimit = #{settings.default.initialBacklogLimit};
         quasselconf.backlogLimit = #{settings.default.backlogLimit};
         quasselconf.unsecurecore = #{settings.unsecurecore};
+        quasselconf.network = !{(settings.bootstrap && JSON.stringify(settings.bootstrap.network)) || '""'};
+        quasselconf.channel = !{(settings.bootstrap && JSON.stringify(settings.bootstrap.channel)) || '""'};
       script(type="text/ng-template", id="modalJoinChannel.html")
         .modal-header
           button.close(type='button', ng-click='cancel()') ×

@@ -87,8 +87,26 @@ angular.module('quassel')
         return messages;
     }
 
-    $quassel.on('init', function(networkId) {
+    $quassel.on('init', function(sessionInit) {
         $scope.networks = [];
+        if (!sessionInit.SessionState.Identities.length) {
+          // Create a default identity
+          if (quasselconf.network) {
+            $quassel.once('identity.add', function identityCallback(identity) {
+              // Join default network
+              // TODO Infer/customise network label
+              $quassel.createNetwork(quasselconf.network, quasselconf.network, identity.identityId);
+
+              // TODO: Unobtrusive alert prompting identity configuration?
+
+              // TODO: Other things to prompt for (ways to add other networks?)
+
+              // TODO: Join default channels?
+            });
+          }
+          // TODO Infer from username?
+          $quassel.createIdentity('testname');
+        }
     });
 
     $quassel.on('network.init', function(networkId) {
