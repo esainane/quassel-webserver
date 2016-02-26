@@ -92,17 +92,18 @@ angular.module('quassel')
         if (!sessionInit.SessionState.Identities.length) {
           // Create a default identity
           if (quasselconf.network) {
-            $quassel.once('identity.add', function identityCallback(identity) {
-              // Join default network
-              // TODO Infer/customise network label
-              $quassel.createNetwork(quasselconf.network, quasselconf.network, identity.identityId);
+              $quassel.once('identity.add', function identityCallback(identity) {
 
-              // TODO: Unobtrusive alert prompting identity configuration?
+                  // Join default network
+                  // TODO Infer/customise network label
+                  $quassel.createNetwork(quasselconf.network, quasselconf.network, identity.identityId);
 
-              // TODO: Other things to prompt for (ways to add other networks?)
+                  // TODO: Unobtrusive alert prompting identity configuration?
 
-              // TODO: Join default channels?
-            });
+                  // TODO: Other things to prompt for (ways to add other networks?)
+
+                  // TODO: Join default channels?
+              });
           }
           // TODO Infer from username?
           $quassel.createIdentity('testname');
@@ -112,12 +113,16 @@ angular.module('quassel')
     $quassel.on('network.init', function(networkId) {
         var networks = this.getNetworks();
         var network = networks.get(networkId);
-        $scope.networks.push(network);
+        $scope.$apply(function() {
+            $scope.networks.push(network);
+        });
     });
 
     $quassel.on('network.addbuffer', function(networkId, bufferId) {
         var network = this.getNetworks().get(networkId);
-        network._buffers = network.getBufferHashMap().values();
+        $scope.$apply(function() {
+            network._buffers = network.getBufferHashMap().values();
+        });
     });
 
     $quassel.on('buffer.backlog', function(bufferId, messageIds) {
